@@ -1,0 +1,30 @@
+.map {
+    &-content {
+      &-area {
+        //   background-color: var(--medium);
+        margin: 15px;
+       display: grid;
+       grid-gap: 15px;
+       grid-template-columns: repeat(4, 1fr);
+       grid-template-rows: repeat(5, 100px);
+       grid-template-areas: 
+       'entry    living bath  master-bath'
+       'kitchen  living hall  master'
+       'kitchen  living spare master'
+       'dinning  living spare master'
+       'dinning  living spare master';
+       
+      }
+    }
+  }
+
+
+  @media only screen and (max-width: 1200px) {
+    .map {
+        &-content {
+          &-area {
+            
+          } 
+          }
+      }
+  }

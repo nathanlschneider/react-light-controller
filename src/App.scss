@@ -1,0 +1,10 @@
+.app {
+  height: 100vh;
+  &-header {
+  padding: 15px 0 0 15px;
+    div {
+      font-size: 54px;
+      color: var(--blue);
+    }
+  }
+}
