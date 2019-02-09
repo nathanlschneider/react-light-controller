@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './Room.scss';
-const username = 'wQw5uy-TR-jaNQdZblznURuGP43lpCFiJhCq9Um-',
-  headers = new Headers({ 'Access-Control-Allow-Origin': '*' });
+const username = 'wQw5uy-TR-jaNQdZblznURuGP43lpCFiJhCq9Um-';
 
 export default class Room extends Component {
   constructor(props) {
@@ -10,10 +9,18 @@ export default class Room extends Component {
       isOn: null
     };
     this.handleClick = this.handleClick.bind(this);
+    this.turnLightOn = this.turnLightOn.bind(this);
   }
 
+  turnLightOn(state) {
+    const data = { on: state };
+    fetch(`http://10.0.0.3/api/${username}/groups/${this.props.id}/action`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  }
   handleClick() {
-   
+    this.state.isOn ? this.turnLightOn(false) : this.turnLightOn(true);
   }
 
   componentDidMount() {
