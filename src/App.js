@@ -5,14 +5,12 @@ import Map from './01 - Map/Map';
 class App extends Component {
   render() {
     return (
-      <div className="app">
-        <header className="app-header">
-          <div>Hue Light Controller</div>
-        </header>
+      <div className='app'>
+        <header className='app-header' />
         <Map />
-        <footer className="app-footer" />
+        <footer className='app-footer' />
       </div>
-    )
+    );
   }
 }
 
