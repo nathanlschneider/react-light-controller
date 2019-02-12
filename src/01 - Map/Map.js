@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './Map.scss';
 import Room from '../Components/Room/Room';
-const username = 'wQw5uy-TR-jaNQdZblznURuGP43lpCFiJhCq9Um-';
 
 
 export default class Map extends Component {
@@ -12,10 +11,6 @@ export default class Map extends Component {
         }
     }
 
-    // componentDidMount(){
-    //     fetch(`api/${username}/groups`)
-    //     .then(data => this.setState({data: data}))
-    // }
     render() {
         return (
             <div className="map">
@@ -29,7 +24,7 @@ export default class Map extends Component {
                         <Room name="Bathroom" id="1"/>
                         <Room name="Spare" id="8"/>
                         <Room name="Master" id="7"/>
-                        <Room name="MasterBath" id=""/>
+                        <Room name="MasterBath" id="0"/>
                     </div>
                 </div>
             </div>
