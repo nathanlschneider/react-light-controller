@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Slider } from 'antd';
 import Loader from '../Loader/Loader';
-// import Slider from '../Slider/Slider';
 import './Room.scss';
 import 'antd/dist/antd.css';
 
@@ -12,16 +11,20 @@ export default class Room extends Component {
     super(props);
     this.state = {
       isOn: null,
-      bri: 1,
+      bri: 0,
       tempBri: 0,
-      disabled: false
+      disabled: false,
+      firstFetch: true
     };
     this.handleClick = this.handleClick.bind(this);
     this.turnLightOn = this.turnLightOn.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleAfterChange = this.handleAfterChange.bind(this);
+    this.formatter = this.formatter.bind(this);
   }
-
+  formatter(value) {
+    return `${Math.round((value / 254) * 100)}%`;
+  }
   turnLightOn(state) {
     fetch(`http://10.0.0.3/api/${username}/groups/${this.props.id}/action`, {
       method: 'PUT',
@@ -45,22 +48,23 @@ export default class Room extends Component {
     this.state.isOn ? this.turnLightOn(false) : this.turnLightOn(true);
   }
 
-  doSetInterval() {
+  componentDidMount() {
+    this.doFetch();
     this.intervalId = setInterval(() => {
-      fetch(`http://10.0.0.3/api/${username}/groups/${this.props.id}`, { mode: 'cors' })
-        .then(res => res.text())
-        .then(text => JSON.parse(text))
-        .then(json => this.setState({ isOn: json.state.any_on, bri: json.action.bri }))
-        .catch(error => console.error('Error:', error));
+      this.doFetch();
     }, 1000);
   }
-  componentDidMount() {
+
+  doFetch() {
     fetch(`http://10.0.0.3/api/${username}/groups/${this.props.id}`, { mode: 'cors' })
       .then(res => res.text())
       .then(text => JSON.parse(text))
-      .then(json => this.setState({ isOn: json.state.any_on, tempBri: json.action.bri }))
+      .then(json =>
+        this.state.firstFetch
+          ? this.setState({ isOn: json.state.any_on, tempBri: json.action.bri, firstFetch: false })
+          : this.setState({ isOn: json.state.any_on, bri: json.action.bri })
+      )
       .catch(error => console.error('Error:', error));
-    this.doSetInterval();
   }
 
   componentWillUnmount() {
@@ -90,6 +94,7 @@ export default class Room extends Component {
             disabled={!this.state.isOn}
             onChange={this.handleOnChange}
             onAfterChange={this.handleAfterChange}
+            tipFormatter={this.formatter}
           />
           <Loader />
         </div>
